@@ -9,6 +9,7 @@ router
 
 router.route("/admin").get(ctrlVenues.listAllVenues);
 
+
 router
 .route("/venues/:venueid")
 .get(ctrlVenues.getVenue)
@@ -24,6 +25,7 @@ router
 .get(ctrlComments.getComment)
 .put(ctrlComments.updateComment)
 .delete(ctrlComments.deleteComment);
+
 
 
 

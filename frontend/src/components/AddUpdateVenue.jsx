@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, json } from "react-router-dom";
 import AdminButton from "./AdminButton";
 import Header from "./Header";
 import VenueReducer from "../services/VenueReducer";
@@ -27,9 +27,49 @@ function AddUpdateVenue() {
         dispatchVenues({ type: "FETCH_FAILURE" });
       }
     }
-  }, []);
-  const performClick = (evt) => {
+  }, [id]);
+  const performClick = async (evt) => {
     evt.preventDefault();
+
+    if(evt.target.name==="Güncelle"){
+      
+      venue.data.name=evt.target.closest('form').name.value;
+     
+      console.log(venue.data.name);
+      try{
+        await VenueDataService.updateVenue(id,json);
+
+        dispatchVenues({type:"ADD_VENUE_SUCCES"});
+      }catch(error){
+        alert("Hata");
+      }
+    }
+
+    if(evt.target.name==="Ekle"){
+
+      const newMekan={
+        name: evt.target.closest('form').name.value,
+        address: evt.target.closest('form').address.value,
+        foodanddrink: evt.target.closest('form').foodanddrink.value,
+        coordinates: evt.target.closest('form').coordinates.value.split(',').map(coord => parseFloat(coord)),
+        day1: evt.target.closest('form').day1.value,
+        openclose1: evt.target.closest('form').openclose1.value,
+        day2: evt.target.closest('form').day2.value,
+        openclose2: evt.target.closest('form').openclose2.value,
+      }
+
+     
+      try{
+        
+        await VenueDataService.addVenue(newMekan).then(()=>{
+          dispatchVenues({type:"ADD_VENUE_SUCCES"});
+        })
+      }catch(error){
+        
+        dispatchVenues({type:"ADD_VENUE_FAILURE"});
+      }
+    }
+
   };
   return (
     <>
@@ -156,9 +196,9 @@ function AddUpdateVenue() {
             </div>
           </div>
           {venue.data.name ? (
-            <AdminButton name="Güncelle" type="primary" />
+            <AdminButton name="Güncelle" type="primary" onClick={performClick} />
           ) : (
-            <AdminButton name="Ekle" type="primary" />
+            <AdminButton name="Ekle" type="primary" onClick={performClick} />
           )}
         </form>
       </div>

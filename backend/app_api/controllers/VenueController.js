@@ -122,7 +122,7 @@ const updateVenue = async function (req, res) {
       coordinates: [req.body.lat, req.body.long],
       hours: [
         {
-          days: req.body.day1,
+      
           open: req.body.open1,
           close: req.body.close1,
           isClosed: req.body.isClosed1,

@@ -54,9 +54,11 @@ function Admin() {
       });
       
   } else if (evt.target.name === "Güncelle") {
-    return navigate('/admin/addupdate/venue/:id', {
-      state: { action: "new" },
+
+    return navigate(`/admin/addupdate/venue/${id}`, {
+      state: { action: "update" },
     });
+    
     
   } else if (evt.target.name === "Mekan Ekle") {
     
